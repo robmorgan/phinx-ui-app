@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Phinx Migrations</title>
+        <link href="https://fonts.googleapis.com/css?family=PT+Sans&display=swap" rel="stylesheet">
+        <style>
+            body {
+                margin: 50px 0 0 0;
+                padding: 0;
+                width: 100%;
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                text-align: center;
+                color: #aaa;
+                font-size: 18px;
+            }
+
+            h1 {
+                color: #44D7B7;
+                letter-spacing: -3px;
+                font-family: 'PT Sans', sans-serif;
+                font-size: 100px;
+                font-weight: 200;
+                margin-bottom: 0;
+            }
+            table {
+              width: 900px;
+            }
+            table tr th {
+              text-align: left;
+              color: #666;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Phinx</h1>
+        <div>PHP Database Migrations For Everyone</div>
+
+        <?php if (isset($migrations)) : ?>
+            <div align="center">
+            <h2>Migration Status</h2>
+            <table width="900">
+              <tr>
+                <th>Version</th>
+                <th>Migration Name</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Status</th>
+              </tr>
+              <?php foreach($migrations as $migration): ?>
+              <tr>
+                <td><?=$migration['version'] ?></td>
+                <td><?=$migration['migration_name'] ?></td>
+                <td><?=$migration['start_time'] ?></td>
+                <td><?=$migration['end_time'] ?></td>
+                <td>Migrated</td>
+              </tr>
+              <?php endforeach; ?>
+            </table>
+            </div>
+        <?php endif; ?>
+
+
+        <p>For more information visit <a href="https://phinx.org">phinx.org</a></p>
+    </body>
+</html>
