@@ -5,8 +5,11 @@ use App\Application\Handlers\HttpErrorHandler;
 use App\Application\Handlers\ShutdownHandler;
 use App\Application\ResponseEmitter\ResponseEmitter;
 use DI\ContainerBuilder;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
+use Slim\Views\PhpRenderer;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -25,10 +28,6 @@ $settings($containerBuilder);
 $dependencies = require __DIR__ . '/../app/dependencies.php';
 $dependencies($containerBuilder);
 
-// Set up repositories
-$repositories = require __DIR__ . '/../app/repositories.php';
-$repositories($containerBuilder);
-
 // Build PHP-DI Container instance
 $container = $containerBuilder->build();
 
@@ -41,9 +40,15 @@ $callableResolver = $app->getCallableResolver();
 $middleware = require __DIR__ . '/../app/middleware.php';
 $middleware($app);
 
-// Register routes
-$routes = require __DIR__ . '/../app/routes.php';
-$routes($app);
+// Define app routes
+$app->get('/', function (Request $request, Response $response, $args) use ($container) {
+	$db = $container->get(PDO::class);
+	$query = $db->query("SELECT * FROM phinxlog");
+	$args['migrations'] = $query->fetchAll();
+
+	$renderer = new PhpRenderer(__DIR__ . '/../templates');
+  return $renderer->render($response, "index.phtml", $args);
+});
 
 /** @var bool $displayErrorDetails */
 $displayErrorDetails = $container->get('settings')['displayErrorDetails'];
