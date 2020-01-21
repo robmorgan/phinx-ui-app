@@ -18,6 +18,7 @@
     "require": {
         "ext-json": "*",
         "monolog/monolog": "^1.24",
+        "robmorgan/phinx": "^0.11.4",
         "php": ">=7.1",
         "php-di/php-di": "^6.0",
         "slim/psr7": "^0.5",
@@ -42,6 +43,7 @@
     },
     "scripts": {
         "start": "php -S localhost:8080 -t public",
-        "test": "phpunit"
+        "test": "phpunit",
+        "refresh-database": "php vendor/bin/phinx rollback -t0; php vendor/bin/phinx migrate; php vendor/bin/phinx seed:run"
     }
 }
