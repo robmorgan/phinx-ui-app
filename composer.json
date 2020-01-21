@@ -1,0 +1,47 @@
+{
+    "name": "robmorgan/phinx-ui-app",
+    "description": "A Simple Web UI that shows the Phinx migration status",
+    "keywords": [
+        "microframework",
+        "rest",
+        "router",
+        "psr7",
+        "phinx"
+    ],
+    "homepage": "http://github.com/slimphp/Slim-Skeleton",
+    "license": "Apache 2.0",
+    "authors": [{
+        "name": "Rob Morgan",
+        "email": "robbym@gmail.com",
+        "homepage": "https://robmorgan.id.au"
+    }],
+    "require": {
+        "ext-json": "*",
+        "monolog/monolog": "^1.24",
+        "php": ">=7.1",
+        "php-di/php-di": "^6.0",
+        "slim/psr7": "^0.5",
+        "slim/slim": "^4.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.5"
+    },
+    "config": {
+        "process-timeout": 0,
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "start": "php -S localhost:8080 -t public",
+        "test": "phpunit"
+    }
+}
