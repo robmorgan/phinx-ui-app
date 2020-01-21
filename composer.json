@@ -16,11 +16,12 @@
         "homepage": "https://robmorgan.id.au"
     }],
     "require": {
+        "php": ">=7.1",
         "ext-json": "*",
         "monolog/monolog": "^1.24",
-        "robmorgan/phinx": "^0.11.4",
-        "php": ">=7.1",
         "php-di/php-di": "^6.0",
+        "robmorgan/phinx": "^0.11.4",
+        "slim/php-view": "^2.2",
         "slim/psr7": "^0.5",
         "slim/slim": "^4.1"
     },
