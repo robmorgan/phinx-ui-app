@@ -1,18 +1,31 @@
-version: '3.7'
+version: "3.7"
 
 volumes:
-    logs:
-        driver: local
+  db_data:
+  logs:
+    driver: local
 
 services:
-    slim:
-        image: php:7-alpine
-        working_dir: /var/www
-        command: php -S 0.0.0.0:8080 -t public
-        environment:
-            docker: "true"
-        ports:
-            - 8080:8080
-        volumes:
-            - .:/var/www
-            - logs:/var/www/logs
+  php:
+    build: .
+    working_dir: /var/www
+    command: php -S 0.0.0.0:8080 -t public
+    environment:
+      docker: "true"
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/var/www
+      - logs:/var/www/logs
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: phinxui
+      MYSQL_USER: phinx_user
+      MYSQL_PASSWORD: phinx_password
