@@ -7,6 +7,7 @@ use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Cake\Database\Connection;
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
@@ -23,6 +24,20 @@ return function (ContainerBuilder $containerBuilder) {
             $logger->pushHandler($handler);
 
             return $logger;
+        },
+
+        // Database connection
+        Connection::class => function (ContainerInterface $container) {
+            $settings = $container->get('settings');
+            return new Connection($settings['db']);
+        },
+
+        PDO::class => function (ContainerInterface $container) {
+            $db = $container->get(Connection::class);
+            $driver = $db->getDriver();
+            $driver->connect();
+
+            return $driver->getConnection();
         },
     ]);
 };
