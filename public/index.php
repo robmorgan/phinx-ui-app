@@ -41,7 +41,7 @@ $callableResolver = $app->getCallableResolver();
 $middleware = require __DIR__ . '/../app/middleware.php';
 $middleware($app);
 
-// In production automatically execute any outstanding Phinx migrations
+// Automatically execute Phinx migrations in production
 if (!getenv('ENVIRONMENT') || getenv('ENVIRONMENT') == "production") {
 	$phinxEnv = 'production';
 	$phinxTarget = null;
