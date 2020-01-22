@@ -7,7 +7,7 @@ environments:
   default_database: development
   production:
     adapter: mysql
-    host: localhost
+    unix_socket: /cloudsql/dev-sandbox-228703:us-central1:master-mysql-instance
     name: exampledb
     user: testuser
     pass: testpassword
