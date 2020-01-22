@@ -8,6 +8,22 @@ Use this skeleton application to quickly setup and start working on a new Slim F
 
 This skeleton application was built for Composer. This makes setting up a new Slim Framework application quick and easy.
 
+## Configuration
+
+**Note:** Saving credentials in environment variables is convenient, but not secure - consider a more secure solution such as [Cloud KMS](https://cloud.google.com/kms/) to help keep secrets safe.
+
+## Creating Database Migrations
+
+```bash
+$ docker-compose run php php vendor/bin/phinx create CreateUsersTable
+```
+
+## Executing Database Migrations
+
+```bash
+$ docker-compose run php php vendor/bin/phinx migrate
+```
+
 ## Install the Application
 
 Run this command from the directory in which you want to install your new Slim Framework application.
