@@ -36,7 +36,7 @@ return function (ContainerBuilder $containerBuilder) {
                 // Connect using UNIX Sockets (Cloud Run)
                 // e.g: 'mysql:dbname=%s;host=/cloudsql/%s',
                 $dsn = sprintf('mysql:dbname=%s;unix_socket=/cloudsql/%s', $config['database'], $config['instance']);
-                $pdo = new PDO($dsn, 'root', '');
+                $pdo = new PDO($dsn, $config['username'], $config['password']);
             } else {
                 // Connect using TCP
                 // e.g: 'mysql://root:password@localhost/my_database';
