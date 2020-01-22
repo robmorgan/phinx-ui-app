@@ -35,14 +35,12 @@ return function (ContainerBuilder $containerBuilder) {
             if ($config['instance']) {
                 // Connect using UNIX Sockets (Cloud Run)
                 // e.g: 'mysql:dbname=%s;host=/cloudsql/%s',
-                $dsn = sprintf('mysql:unix_socket=/cloudsql/%s;dbname=%s', $config['instance'], $config['database']);
+                $dsn = sprintf('mysql:dbname=%s;unix_socket=/cloudsql/%s', $config['instance'], $config['database']);
             } else {
                 // Connect using TCP
                 // e.g: 'mysql://root:password@localhost/my_database';
                 $dsn = sprintf('mysql:host=%s;dbname=%s', $config['host'], $config['database']);
             }
-
-            var_dump($dsn);exit;
 
             return new PDO($dsn, $config['username'], $config['password']);
         },
