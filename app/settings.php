@@ -19,7 +19,7 @@ return function (ContainerBuilder $containerBuilder) {
             ],
             'db' => [
                 'driver' => \Cake\Database\Driver\Mysql::class,
-                'instance' => 'dev-sandbox-228703:us-central1:master-mysql-instance',
+                'instance' => getenv('INSTANCE_CONNECTION_NAME'),
                 'host' => getenv('MYSQL_HOST'),
                 'database' => getenv('MYSQL_DATABASE'),
                 'username' => getenv('MYSQL_USERNAME'),
