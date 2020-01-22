@@ -8,6 +8,7 @@ use Monolog\Processor\UidProcessor;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Cake\Database\Connection;
+use Cake\Datasource\ConnectionManager;
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
@@ -29,11 +30,26 @@ return function (ContainerBuilder $containerBuilder) {
         // Database connection
         Connection::class => function (ContainerInterface $container) {
             $settings = $container->get('settings');
-            return new Connection($settings['db']);
+            $config = $settings['db'];
+
+            if ($config['instance']) {
+                // Connect using UNIX Sockets (Cloud Run)
+                // e.g: 'mysql:dbname=%s;host=/cloudsql/%s',
+                $dsn = sprintf('mysql:dbname=%s;host=/cloudsql/%s', $config['database'], $config['instance']);
+            } else {
+                // Connect using TCP
+                // e.g: 'mysql://root:password@localhost/my_database';
+                $dsn = sprintf('mysql://%s:%s@%s/%s', $config['username'], $config['password'], $config['host'], $config['database']);
+            }
+
+            ConnectionManager::setConfig('default', ['url' => $dsn]);
+            return ConnectionManager::get('default');
         },
 
         PDO::class => function (ContainerInterface $container) {
+            $settings = $container->get('settings');
             $db = $container->get(Connection::class);
+
             $driver = $db->getDriver();
             $driver->connect();
 

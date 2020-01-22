@@ -19,10 +19,11 @@ return function (ContainerBuilder $containerBuilder) {
             ],
             'db' => [
                 'driver' => \Cake\Database\Driver\Mysql::class,
-                'host' => 'db',
-                'database' => 'phinxui',
-                'username' => 'root',
-                'password' => 'rootpassword',
+                'instance' => getenv('INSTANCE_CONNECTION_NAME'),
+                'host' => getenv('MYSQL_HOST'),
+                'database' => getenv('MYSQL_DATABASE'),
+                'username' => getenv('MYSQL_USERNAME'),
+                'password' => getenv('MYSQL_PASSWORD'),
                 'encoding' => 'utf8mb4',
                 'collation' => 'utf8mb4_unicode_ci',
                 // Enable identifier quoting
