@@ -44,7 +44,7 @@ $middleware($app);
 // In production automatically execute any outstanding Phinx migrations
 if (!getenv('ENVIRONMENT') || getenv('ENVIRONMENT') == "production") {
 	$phinxEnv = 'production';
-	$phinxTarget = 20200122072719;
+	$phinxTarget = null;
 	$phinxApp = new Phinx\Console\PhinxApplication();
 	$wrapper = new Phinx\Wrapper\TextWrapper($phinxApp);
 	$output = call_user_func([$wrapper, 'getMigrate'], $phinxEnv, $phinxTarget);
