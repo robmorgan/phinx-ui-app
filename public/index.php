@@ -7,6 +7,7 @@ use App\Application\ResponseEmitter\ResponseEmitter;
 use DI\ContainerBuilder;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Log\LoggerInterface;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
 use Slim\Views\PhpRenderer;
@@ -39,6 +40,17 @@ $callableResolver = $app->getCallableResolver();
 // Register middleware
 $middleware = require __DIR__ . '/../app/middleware.php';
 $middleware($app);
+
+// In production automatically execute any outstanding Phinx migrations
+if (!getenv('ENVIRONMENT') || getenv('ENVIRONMENT') == "production") {
+	$phinxEnv = 'production';
+	$phinxTarget = 20200122072719;
+	$phinxApp = new Phinx\Console\PhinxApplication();
+	$wrapper = new Phinx\Wrapper\TextWrapper($phinxApp);
+	$output = call_user_func([$wrapper, 'getMigrate'], $phinxEnv, $phinxTarget);
+	var_dump($output);exit;
+	$error = $wrapper->getExitCode() > 0;
+}
 
 // Define app routes
 $app->get('/', function (Request $request, Response $response, $args) use ($container) {
