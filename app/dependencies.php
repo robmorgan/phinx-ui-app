@@ -40,6 +40,7 @@ return function (ContainerBuilder $containerBuilder) {
                 // Connect using TCP
                 // e.g: 'mysql://root:password@localhost/my_database';
                 $dsn = sprintf('mysql:host=%s;dbname=%s', $config['host'], $config['database']);
+                var_dump($dsn);exit;
             }
 
             return new PDO($dsn, $config['username'], $config['password']);
