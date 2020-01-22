@@ -16,6 +16,7 @@ services:
       MYSQL_DATABASE: phinxui
       MYSQL_USERNAME: root
       MYSQL_PASSWORD: rootpassword
+      ENVIRONMENT: development
     ports:
       - 8080:8080
     volumes:
