@@ -34,6 +34,8 @@ $config = $settings['db'];
 
 //var_dump($config);exit;
 
+$unixSocket = sprintf('/cloudsql/%s', $config['instance']);
+
 return [
     'paths'                => [
         'migrations' => 'db/migrations',
@@ -47,15 +49,14 @@ return [
             'connection' => $container->get(PDO::class),
         ],
         'production'              => [
-            'adapter'   => 'mysql',
-            'host'      => $config['host'],
-            'name'      => $config['database'],
-            'user'      => $config['username'],
-            'pass'      => $config['password'],
-            'port'      => $config['port'],
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
+            'adapter'       => 'mysql',
+            'name'          => $config['database'],
+            'user'          => $config['username'],
+            'pass'          => '',
+            'unix_socket'   => $unixSocket,
+            'charset'       => 'utf8',
+            'collation'     => 'utf8_unicode_ci',
+            'prefix'        => '',
         ],
     ],
 ];

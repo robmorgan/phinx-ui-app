@@ -28,7 +28,7 @@ return function (ContainerBuilder $containerBuilder) {
         },
 
         // Database connection
-        Connection::class => function (ContainerInterface $container) {
+        PDO::class => function (ContainerInterface $container) {
             $settings = $container->get('settings');
             $config = $settings['db'];
 
@@ -39,21 +39,10 @@ return function (ContainerBuilder $containerBuilder) {
             } else {
                 // Connect using TCP
                 // e.g: 'mysql://root:password@localhost/my_database';
-                $dsn = sprintf('mysql://%s:%s@%s/%s', $config['username'], $config['password'], $config['host'], $config['database']);
+                $dsn = sprintf('mysql:host=%s;dbname=%s', $config['host'], $config['database']);
             }
 
-            ConnectionManager::setConfig('default', ['url' => $dsn]);
-            return ConnectionManager::get('default');
-        },
-
-        PDO::class => function (ContainerInterface $container) {
-            $settings = $container->get('settings');
-            $db = $container->get(Connection::class);
-
-            $driver = $db->getDriver();
-            $driver->connect();
-
-            return $driver->getConnection();
+            return new PDO($dsn, $config['username'], $config['password']);
         },
     ]);
 };
