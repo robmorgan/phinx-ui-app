@@ -32,8 +32,6 @@ $app = AppFactory::create();
 $settings = $container->get('settings');
 $config = $settings['db'];
 
-//var_dump($config);exit;
-
 $unixSocket = sprintf('/cloudsql/%s', $config['instance']);
 
 return [
