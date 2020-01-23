@@ -18,7 +18,7 @@ require __DIR__ . '/../vendor/autoload.php';
 $containerBuilder = new ContainerBuilder();
 
 if (false) { // Should be set to true in production
-	$containerBuilder->enableCompilation(__DIR__ . '/../var/cache');
+    $containerBuilder->enableCompilation(__DIR__ . '/../var/cache');
 }
 
 // Set up settings
@@ -41,24 +41,27 @@ $callableResolver = $app->getCallableResolver();
 $middleware = require __DIR__ . '/../app/middleware.php';
 $middleware($app);
 
-// Automatically execute Phinx migrations in production
-if (!getenv('ENVIRONMENT') || getenv('ENVIRONMENT') == "production") {
-	$phinxEnv = 'production';
-	$phinxTarget = null;
-	$phinxApp = new Phinx\Console\PhinxApplication();
-	$wrapper = new Phinx\Wrapper\TextWrapper($phinxApp);
-	$output = call_user_func([$wrapper, 'getMigrate'], $phinxEnv, $phinxTarget);
-	//var_dump($output);exit;
-	$error = $wrapper->getExitCode() > 0;
+// Automatically execute Phinx migrations in production on app startup
+// This means the first request after a deployment will likely be slower!
+if (!getenv('ENVIRONMENT') || getenv('ENVIRONMENT') == 'production') {
+    $phinxEnv = getenv('ENVIRONMENT') ? getenv('ENVIRONMENT') : 'production';
+    $phinxTarget = null; // apply all available migrations
+    $options = [
+		    'configuration' => __DIR__ . '/../phinx.php',
+    ];
+    $phinxApp = new Phinx\Console\PhinxApplication();
+    $wrapper = new Phinx\Wrapper\TextWrapper($phinxApp, $options);
+    $output = call_user_func([$wrapper, 'getMigrate'], $phinxEnv, $phinxTarget);
+    $error = $wrapper->getExitCode() > 0;
 }
 
 // Define app routes
 $app->get('/', function (Request $request, Response $response, $args) use ($container) {
-	$db = $container->get(PDO::class);
-	$query = $db->query("SELECT * FROM phinxlog");
-	$args['migrations'] = $query->fetchAll();
+    $db = $container->get(PDO::class);
+    $query = $db->query("SELECT * FROM phinxlog");
+    $args['migrations'] = $query->fetchAll();
 
-	$renderer = new PhpRenderer(__DIR__ . '/../templates');
+    $renderer = new PhpRenderer(__DIR__ . '/../templates');
   return $renderer->render($response, "index.phtml", $args);
 });
 
