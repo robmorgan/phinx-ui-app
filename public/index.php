@@ -51,7 +51,8 @@ if (!getenv('ENVIRONMENT') || getenv('ENVIRONMENT') == 'production') {
     ];
     $phinxApp = new Phinx\Console\PhinxApplication();
     $wrapper = new Phinx\Wrapper\TextWrapper($phinxApp, $options);
-    $output = call_user_func([$wrapper, 'getMigrate'], $phinxEnv, $phinxTarget);
+		$output = call_user_func([$wrapper, 'getMigrate'], $phinxEnv, $phinxTarget);
+		var_dump($output);exit;
     $error = $wrapper->getExitCode() > 0;
 }
 
