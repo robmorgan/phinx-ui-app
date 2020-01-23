@@ -1,3 +1,5 @@
+![Phinx UI App](https://github.com/robmorgan/phinx-ui-app/blob/master/_docs/phinx-ui-app.png)
+
 # Phinx UI App
 
 [![Coverage Status](https://coveralls.io/repos/github/robmorgan/phinx-ui-app/badge.svg?branch=master)](https://coveralls.io/github/robmorgan/phinx-ui-app?branch=master)
