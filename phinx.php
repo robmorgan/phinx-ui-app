@@ -50,7 +50,7 @@ return [
             'adapter'       => 'mysql',
             'name'          => $config['database'],
             'user'          => $config['username'],
-            'pass'          => '',
+            'pass'          => $config['password'],
             'unix_socket'   => $unixSocket,
             'charset'       => 'utf8',
             'collation'     => 'utf8_unicode_ci',
