@@ -2,63 +2,53 @@
 
 # Phinx UI App
 
-[![Coverage Status](https://coveralls.io/repos/github/robmorgan/phinx-ui-app/badge.svg?branch=master)](https://coveralls.io/github/robmorgan/phinx-ui-app?branch=master)
-
-A Simple Web UI that shows the Phinx migration status.
-
-Use this skeleton application to quickly setup and start working on a new Slim Framework 4 application. This application uses the latest Slim 4 with Slim PSR-7 implementation and PHP-DI container implementation. It also uses the Monolog logger.
-
-This skeleton application was built for Composer. This makes setting up a new Slim Framework application quick and easy.
+A Simple Web UI that shows the Phinx migration status built using the Slim Framework (v4).
 
 ## Configuration
 
+The app is configured with the following environment variables:
+
+- `MYSQL_HOST`: The MySQL host name.
+- `MYSQL_DATABASE`: The MySQL database name.
+- `MYSQL_USERNAME`: The username of the MySQL user.
+- `MYSQL_PASSWORD`: The password of the MySQL user.
+- `INSTANCE_CONNECTION_NAME`: This is used when deploying to Google Cloud Run and enables PDO Unix Socket support.
+
+You can refer to the configuration in the `app/settings.php` file. The root of the repository contains a `phinx.php` file which has been configured to use these values.
+
 **Note:** Saving credentials in environment variables is convenient, but not secure - consider a more secure solution such as [Cloud KMS](https://cloud.google.com/kms/) to help keep secrets safe.
 
-## Creating Database Migrations
+## Getting Started
+
+If you have Docker and Docker Compose installed, then you can simply run:
+
+```bash
+$ docker-compose up
+```
+
+To download and build all of the necessary dependencies.
+
+### Creating Database Migrations
+
+To create a new migration run:
 
 ```bash
 $ docker-compose run php php vendor/bin/phinx create CreateUsersTable
 ```
 
-## Executing Database Migrations
+### Executing Database Migrations
+
+To execute database migrations run:
 
 ```bash
-$ docker-compose run php php vendor/bin/phinx migrate
+$ docker-compose run php php vendor/bin/phinx migrate -e development
 ```
 
-## Install the Application
+## Deployment
 
-Run this command from the directory in which you want to install your new Slim Framework application.
+This app has been designed to be deployed to Google Cloud Run and is configured to automatically execute any outstanding migrations on startup. You can see the `public/index.php` for the code logic that enables this.
+The root of the repo contains a `cloudbuild.yaml` file that will automatically package the app into a Docker
+container when it is pushed to Google Cloud Source Repositories.
 
-```bash
-composer create-project slim/slim-skeleton [my-app-name]
-```
-
-Replace `[my-app-name]` with the desired directory name for your new application. You'll want to:
-
-- Point your virtual host document root to your new application's `public/` directory.
-- Ensure `logs/` is web writable.
-
-To run the application in development, you can run these commands
-
-```bash
-cd [my-app-name]
-composer start
-```
-
-Or you can use `docker-compose` to run the app with `docker`, so you can run these commands:
-
-```bash
-cd [my-app-name]
-docker-compose up -d
-```
-
-After that, open `http://localhost:8080` in your browser.
-
-Run this command in the application directory to run the test suite
-
-```bash
-composer test
-```
-
-That's it! Now go build something cool.
+If you would like to deploy the necessary resources to run this app on Google Cloud Run, then check out my
+[terraform-cloudrun-example](https://github.com/robmorgan/terraform-cloudrun-example) repo.
