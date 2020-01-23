@@ -47,12 +47,11 @@ if (!getenv('ENVIRONMENT') || getenv('ENVIRONMENT') == 'production') {
     $phinxEnv = getenv('ENVIRONMENT') ? getenv('ENVIRONMENT') : 'production';
     $phinxTarget = null; // apply all available migrations
     $options = [
-		    'configuration' => __DIR__ . '/../phinx.php',
+        'configuration' => __DIR__ . '/../phinx.php',
     ];
     $phinxApp = new Phinx\Console\PhinxApplication();
     $wrapper = new Phinx\Wrapper\TextWrapper($phinxApp, $options);
-		$output = call_user_func([$wrapper, 'getMigrate'], $phinxEnv, $phinxTarget);
-		var_dump($output);exit;
+    $output = call_user_func([$wrapper, 'getMigrate'], $phinxEnv, $phinxTarget);
     $error = $wrapper->getExitCode() > 0;
 }
 
