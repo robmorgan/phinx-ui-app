@@ -1,15 +1,15 @@
-FROM php:7-alpine
+FROM php:8.1-alpine
 
 RUN apk --update add wget \
   curl \
   git \
-  php7 \
-  php7-curl \
-  php7-openssl \
-  php7-iconv \
-  php7-json \
-  php7-mbstring \
-  php7-phar \
+  php81 \
+  php81-curl \
+  php81-openssl \
+  php81-iconv \
+  php81-json \
+  php81-mbstring \
+  php81-phar \
   && rm /var/cache/apk/*
 
 RUN docker-php-ext-install pdo pdo_mysql mysqli

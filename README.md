@@ -46,7 +46,8 @@ $ docker-compose run php php vendor/bin/phinx migrate -e development
 
 ## Deployment
 
-This app has been designed to be deployed to Google Cloud Run and is configured to automatically execute any outstanding migrations on startup. You can see the `public/index.php` for the code logic that enables this.
+This app has been designed to be deployed to Google Cloud Run and is configured to automatically execute any
+outstanding migrations on startup. You can see the `public/index.php` for the code logic that enables this.
 The root of the repo contains a `cloudbuild.yaml` file that will automatically package the app into a Docker
 container when it is pushed to Google Cloud Source Repositories.
 

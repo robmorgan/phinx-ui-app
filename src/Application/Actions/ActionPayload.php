@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Application\Actions;
 
 use JsonSerializable;
+use ReturnTypeWillChange;
 
 class ActionPayload implements JsonSerializable
 {
@@ -64,6 +65,7 @@ class ActionPayload implements JsonSerializable
     /**
      * @return array
      */
+    #[ReturnTypeWillChange]
     public function jsonSerialize()
     {
         $payload = [];
